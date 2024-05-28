@@ -2,14 +2,14 @@ import {useState} from 'react';
 import IconButton from '@mui/material/IconButton';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import "./css/NavMenu.css";
-import NavMenu from "./NavMenu.jsx";
+import NavMenu from "./NavMenu.js";
 
 export default function Nav() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-    const toggleMenu = () => {
+    function toggleMenu() {
         setIsMenuOpen(!isMenuOpen);
-    };
+    }
 
     return (
         <nav className='relative w-2/5'>
