@@ -1,8 +1,12 @@
 import EmployTypeSelect from "./components/EmployTypeSelect";
 import IncomeTypeSelection from "./components/IncomeTypeSelection";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {SelectChangeEvent} from "@mui/material/Select";
 import AmountInput from "./components/AmountInput";
+import DeductionInput from "./components/DeductionInput";
+import {TaxCreditInput} from "./components/TaxCreditInput";
+import {Button} from "@mui/material";
+import CalculateIcon from '@mui/icons-material/Calculate';
 
 export default function TaxCalculatorSection() {
     const [userInput, setUserInput] =
@@ -10,12 +14,22 @@ export default function TaxCalculatorSection() {
                 employmentType: '',
                 incomeType: '',
                 income: 0,
-                deductions: null,
-                taxCredits: null
+                deductions: 0,
+                taxCredits: 0
             });
 
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    function validateUserInput() {
+         return !(userInput.employmentType === ""
+             || userInput.incomeType === ""
+             || userInput.income === 0);
 
-    function handleEmployTypeChange(event: SelectChangeEvent<string>) {
+    }
+    useEffect(() => {
+        setIsSubmitDisabled(!validateUserInput());
+    }, [userInput]);
+
+    function handleEmployTypeChange(event: SelectChangeEvent) {
         const newValue:string = event.target.value;
         setUserInput( (prev) => {
                 const updatedUserInput = {
@@ -27,7 +41,7 @@ export default function TaxCalculatorSection() {
             }
         );
     }
-    function handleIncomeTypeChange(event: SelectChangeEvent<string>) {
+    function handleIncomeTypeChange(event: SelectChangeEvent) {
         const newValue:string = event.target.value;
         setUserInput( (prev) => {
                 const updatedUserInput = {
@@ -46,7 +60,12 @@ export default function TaxCalculatorSection() {
         }));
         console.log(userInput);
     }
-
+    function handleDeductionChange(value:number) {
+        setUserInput( prev => ({...prev, deductions: value}));
+    }
+    function handleTaxCreditChange(value:number) {
+        setUserInput(prev =>({...prev, taxCredits: value}));
+    }
 
     return (
         <section className='bg-white p-3 md:p-20 flex justify-center items-center flex-col'>
@@ -69,7 +88,29 @@ export default function TaxCalculatorSection() {
                     <IncomeTypeSelection value={userInput.incomeType}
                                          onChange={handleIncomeTypeChange}/>
                 </div>
-                <AmountInput value={userInput.income} amountOnChange={handleAmountChange} />
+
+                <div className='mt-2 flex flex-col md:flex-row'>
+                    <AmountInput value={userInput.income}
+                             type={userInput.incomeType}
+                             amountOnChange={handleAmountChange} />
+                    <DeductionInput value={userInput.deductions}
+                                    deductionOnChange={handleDeductionChange}/>
+
+                </div>
+
+                <div className='mt-2 flex flex-col md:flex-row'>
+                     <TaxCreditInput value={userInput.taxCredits}
+                                taxCreditOnchange={handleTaxCreditChange}/>
+
+                     <Button disabled={isSubmitDisabled}
+                         sx={{m:1,maxHeight:56,minHeight:56, minWidth:200}}
+                         variant="contained" endIcon={<CalculateIcon />}>
+                        Calculate
+                      </Button>
+                </div>
+
+
+
             </div>
         </section>
     );

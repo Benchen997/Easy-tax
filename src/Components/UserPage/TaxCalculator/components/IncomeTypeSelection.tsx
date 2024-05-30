@@ -26,15 +26,14 @@ export default function IncomeTypeSelection({onChange, value} : IncomeTypeSelect
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    <MenuItem value='annual'>Annual</MenuItem>
-                    <MenuItem value='monthly'>Monthly</MenuItem>
-                    <MenuItem value='fortnightly'>Fortnightly</MenuItem>
-                    <MenuItem value='weekly'>Weekly</MenuItem>
-                    <MenuItem value='hourly'>Hourly</MenuItem>
+                    <MenuItem value='Annual'>Annual</MenuItem>
+                    <MenuItem value='Monthly'>Monthly</MenuItem>
+                    <MenuItem value='Fortnightly'>Fortnightly</MenuItem>
+                    <MenuItem value='Weekly'>Weekly</MenuItem>
+                    <MenuItem value='Hourly'>Hourly</MenuItem>
                 </Select>
                 <FormHelperText>Choose your income type</FormHelperText>
             </FormControl>
-
         </div>
     );
 }

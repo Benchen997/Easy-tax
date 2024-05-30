@@ -25,11 +25,11 @@ export default function EmploymentTypeSelect({ value, onChange}: EmploymentTypeS
                     <MenuItem value="not given">
                         <em>None</em>
                     </MenuItem>
-                    <MenuItem value='full-time'>Full-time</MenuItem>
-                    <MenuItem value='part-time'>Part-time</MenuItem>
-                    <MenuItem value='casual'>Casual</MenuItem>
-                    <MenuItem value='contractor'>Contractor</MenuItem>
-                    <MenuItem value='self-employed'>Self-employed</MenuItem>
+                    <MenuItem value='Full-time'>Full-time</MenuItem>
+                    <MenuItem value='Part-time'>Part-time</MenuItem>
+                    <MenuItem value='Casual'>Casual</MenuItem>
+                    <MenuItem value='Contractor'>Contractor</MenuItem>
+                    <MenuItem value='Self-employed'>Self-employed</MenuItem>
                 </Select>
                 <FormHelperText>Choose your employment type</FormHelperText>
             </FormControl>
