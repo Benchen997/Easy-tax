@@ -5,7 +5,10 @@ interface NavMenuProps {
   isMenuOpen: boolean;
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
+/*
+* @TODO: need to change the entire menu style with MUI drawer
+*
+* */
 function NavMenu({ isMenuOpen, setIsMenuOpen }: NavMenuProps) {
   function closeMenu() {
     setIsMenuOpen(false);
