@@ -1,3 +1,4 @@
+import {calculateTax} from "../../utils/taxCalculator"
 import EmployTypeSelect from "./components/EmployTypeSelect";
 import IncomeTypeSelection from "./components/IncomeTypeSelection";
 import {useEffect, useState} from "react";
@@ -19,15 +20,26 @@ export default function TaxCalculatorSection() {
             });
 
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    const [result, setResult] = useState(0);
     function validateUserInput() {
          return !(userInput.employmentType === ""
              || userInput.incomeType === ""
              || userInput.income === 0);
 
     }
+    // when user input changes, check if the submit button should be disabled
     useEffect(() => {
         setIsSubmitDisabled(!validateUserInput());
     }, [userInput]);
+
+    async function handleSubmit() {
+        try {
+            const tax = calculateTax(userInput);
+            setResult(tax);
+        } catch (error) {
+            console.error("Error calculating tax:", error);
+        }
+    }
 
     function handleEmployTypeChange(event: SelectChangeEvent) {
         const newValue:string = event.target.value;
@@ -102,14 +114,19 @@ export default function TaxCalculatorSection() {
                      <TaxCreditInput value={userInput.taxCredits}
                                 taxCreditOnchange={handleTaxCreditChange}/>
 
-                     <Button disabled={isSubmitDisabled}
+                     <Button
+                         disabled={isSubmitDisabled}
+                         onClick={handleSubmit}
                          sx={{m:1,maxHeight:56,minHeight:56, minWidth:200}}
                          variant="contained" endIcon={<CalculateIcon />}>
                         Calculate
                       </Button>
                 </div>
-
-
+                {result !== 0 && (
+                    <div className="mt-4">
+                        <h2>Your Calculated Tax: ${result}</h2>
+                    </div>
+                )}
 
             </div>
         </section>
