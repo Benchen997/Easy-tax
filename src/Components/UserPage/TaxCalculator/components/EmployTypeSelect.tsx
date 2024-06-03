@@ -22,7 +22,7 @@ export default function EmploymentTypeSelect({ value, onChange}: EmploymentTypeS
                     label="Employment Type"
                     onChange={onChange}
                 >
-                    <MenuItem value="not given">
+                    <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
                     <MenuItem value='Full-time'>Full-time</MenuItem>

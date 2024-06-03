@@ -1,17 +1,16 @@
+import HelpIcon from "@mui/icons-material/Help";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import {InputAdornment, OutlinedInput} from "@mui/material";
-import FormHelperText from "@mui/material/FormHelperText";
-import HelpIcon from "@mui/icons-material/Help";
-import FormControl from "@mui/material/FormControl";
 import React, {useState} from "react";
 
-interface TaxCreditInputProps {
-    value:number
-    taxCreditOnchange:(value:number) => void;
+interface WorkingTimeInputProps {
+    timeUnit: string;
+    value: number;
+    workingTimeOnChange: (value: number, timeUnit: string) => void;
 }
-
-export function TaxCreditInput({value,taxCreditOnchange}:TaxCreditInputProps) {
-
+export function WorkingTimeInput({timeUnit, workingTimeOnChange, value}:WorkingTimeInputProps) {
     const [error, setError] = useState(false);
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const inputValue = event.target.value;
@@ -20,7 +19,7 @@ export function TaxCreditInput({value,taxCreditOnchange}:TaxCreditInputProps) {
             setError(false);
             const numericValue = inputValue === '' ? 0 : parseFloat(inputValue);
             //validate input is a number and then pass back to parent.
-            taxCreditOnchange(numericValue);
+            workingTimeOnChange(numericValue, timeUnit);
         } else {
             setError(true);
         }
@@ -28,20 +27,20 @@ export function TaxCreditInput({value,taxCreditOnchange}:TaxCreditInputProps) {
     return (
         <div>
             <FormControl sx={{ m: 1, maxWidth: 200 }} variant="outlined" error={error}>
-                <InputLabel htmlFor="outlined-adornment-tax-credit">Tax Credit</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-working-time">Working {timeUnit}</InputLabel>
                 <OutlinedInput
-                    id="outlined-adornment-tax-credit"
+                    id="outlined-adornment-working-time"
                     value={value === 0 ? '' : value.toString()}
                     onChange={handleChange}
-                    endAdornment={<InputAdornment position="end">$</InputAdornment>}
-                    label="Tax Credit"
+                    endAdornment={<InputAdornment position="end">{timeUnit}</InputAdornment>}
+                    label={`Working ${timeUnit}`}
                     autoComplete = 'false'
                 />
                 {error ? (
                     <FormHelperText>Incorrect entry. Only numbers are allowed.</FormHelperText>
                 ) : (
-                    <FormHelperText> Total Tax Credit & Concessions &nbsp;
-                        <a href="#tax-credit" style={{textDecoration: 'none', color: 'inherit'}}>
+                    <FormHelperText> Total Working {timeUnit} {timeUnit=== 'Days' ? 'Per Week' : 'Per Day'} &nbsp;
+                        <a href="#working-time" style={{textDecoration: 'none', color: 'inherit'}}>
                             <HelpIcon sx={{fontSize: 15}}/>
                         </a>
                     </FormHelperText>

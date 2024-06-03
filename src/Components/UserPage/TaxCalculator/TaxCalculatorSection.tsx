@@ -6,14 +6,19 @@ import {SelectChangeEvent} from "@mui/material/Select";
 import AmountInput from "./components/AmountInput";
 import DeductionInput from "./components/DeductionInput";
 import {TaxCreditInput} from "./components/TaxCreditInput";
-import {Button} from "@mui/material";
-import CalculateIcon from '@mui/icons-material/Calculate';
+import {CalculateButton} from "./components/CalculateButton";
+import BranchWrapper from "./BranchWrapper";
 
 export default function TaxCalculatorSection() {
     const [userInput, setUserInput] =
         useState({
                 employmentType: '',
                 incomeType: '',
+                isBranched: false,
+                workLength: {
+                    hoursPerDay: 0,
+                    daysPerWeek: 0
+                },
                 income: 0,
                 deductions: 0,
                 taxCredits: 0
@@ -34,6 +39,7 @@ export default function TaxCalculatorSection() {
 
     async function handleSubmit() {
         try {
+            console.log(userInput);
             const tax = calculateTax(userInput);
             setResult(tax);
         } catch (error) {
@@ -43,34 +49,59 @@ export default function TaxCalculatorSection() {
 
     function handleEmployTypeChange(event: SelectChangeEvent) {
         const newValue:string = event.target.value;
-        setUserInput( (prev) => {
-                const updatedUserInput = {
-                    ...prev,
-                    employmentType: newValue
-                };
-                console.log(updatedUserInput);
-                return updatedUserInput;
+        if (newValue === 'Contractor') {
+            setUserInput(prev => ({
+                ...prev,
+                employmentType: newValue,
+                isBranched: true,
+                incomeType: 'Daily'
+            }));
+            return;
+        }
+        if (newValue === 'Casual' || newValue === 'Part-time') {
+            setUserInput(prev => ({
+                ...prev,
+                employmentType: newValue,
+                isBranched: true,
+                incomeType: 'Hourly'
+            }));
+            return;
+        }
+        setUserInput(prev => ({
+            ...prev,
+            employmentType: newValue,
+        }));
+
+    }
+    function handleWorkingTimeChange(value:number, timeUnit:string) {
+        timeUnit === 'Days'
+        ? setUserInput(prev => ({
+            ...prev,
+            workLength: {
+                ...prev.workLength,
+                daysPerWeek: value
             }
-        );
+        }))
+        : setUserInput(prev => ({
+            ...prev,
+            workLength: {
+                ...prev.workLength,
+                hoursPerDay: value
+            }
+        }));
     }
     function handleIncomeTypeChange(event: SelectChangeEvent) {
         const newValue:string = event.target.value;
         setUserInput( (prev) => {
-                const updatedUserInput = {
+            return {
                     ...prev,
-                    incomeType:newValue
-                }
-                console.log(updatedUserInput);
-                return updatedUserInput;
+                    incomeType: newValue
+                };
             }
         );
     }
     function handleAmountChange(value: number) {
-        setUserInput(prev => ({
-            ...prev,
-            income: value
-        }));
-        console.log(userInput);
+        setUserInput(prev => ({...prev, income: value}));
     }
     function handleDeductionChange(value:number) {
         setUserInput( prev => ({...prev, deductions: value}));
@@ -80,55 +111,38 @@ export default function TaxCalculatorSection() {
     }
 
     return (
-        <section className='bg-white p-3 md:p-20 flex justify-center items-center flex-col'>
-            {/*@ TODO:
-                1. employment type selection: [full-time, part-time, self-employed, casual, contractor ]
-                2. Income type selection [Annual, Monthly, Fortnightly, Weekly, Hourly]
-                3. Input form: [Income, Deductions, Tax Credits and Concessions, submit button]
-                4. Calculation
-                5. loading spinner
-                6. Result display-> other modules
-             */}
-            <h1 className='text-2xl mb-2 md:text-3xl font-bold'>Tax Calculator</h1>
+        <section className='bg-gray-100 flex flex-col justify-center items-center
+                            rounded-lg
+                            w-full p-12'>
+            <h1 className='text-2xl mb-4 md:text-3xl font-bold'>Tax Calculator</h1>
 
-            <div className='bg-gray-100 flex flex-col justify-center items-center
-                            w-4/5 md:w-2/3 p-12'>
-                <div className='selector-container flex flex-col md:flex-row'>
-                    <EmployTypeSelect value={userInput.employmentType}
-                                      onChange={handleEmployTypeChange} />
+            <div className=''>
+                <EmployTypeSelect value={userInput.employmentType}
+                                  onChange={handleEmployTypeChange} />
 
-                    <IncomeTypeSelection value={userInput.incomeType}
-                                         onChange={handleIncomeTypeChange}/>
-                </div>
+                {/*selective rendering: if employment type = contractor/casual/part-time, show
+                 working time input instead of income type */}
+                {
+                    userInput.isBranched
+                    ? (<BranchWrapper userInput={userInput} handleWorkingTimeOnChange={handleWorkingTimeChange}/>)
+                    : (<IncomeTypeSelection value={userInput.incomeType} onChange={handleIncomeTypeChange} />)
+                }
 
-                <div className='mt-2 flex flex-col md:flex-row'>
-                    <AmountInput value={userInput.income}
-                             type={userInput.incomeType}
-                             amountOnChange={handleAmountChange} />
-                    <DeductionInput value={userInput.deductions}
-                                    deductionOnChange={handleDeductionChange}/>
+                <AmountInput value={userInput.income}
+                         type={userInput.incomeType}
+                         amountOnChange={handleAmountChange} />
+                <DeductionInput value={userInput.deductions}
+                                deductionOnChange={handleDeductionChange}/>
 
-                </div>
-
-                <div className='mt-2 flex flex-col md:flex-row'>
-                     <TaxCreditInput value={userInput.taxCredits}
-                                taxCreditOnchange={handleTaxCreditChange}/>
-
-                     <Button
-                         disabled={isSubmitDisabled}
-                         onClick={handleSubmit}
-                         sx={{m:1,maxHeight:56,minHeight:56, minWidth:200}}
-                         variant="contained" endIcon={<CalculateIcon />}>
-                        Calculate
-                      </Button>
-                </div>
-                {result !== 0 && (
+                 <TaxCreditInput value={userInput.taxCredits}
+                            taxCreditOnchange={handleTaxCreditChange}/>
+            </div>
+            <CalculateButton isSubmitDisabled={isSubmitDisabled} handleSubmit={handleSubmit} />
+            {result !== 0 && (
                     <div className="mt-4">
                         <h2>Your Calculated Tax: ${result}</h2>
                     </div>
                 )}
-
-            </div>
         </section>
     );
 }

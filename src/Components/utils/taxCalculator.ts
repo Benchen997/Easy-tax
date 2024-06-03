@@ -6,9 +6,14 @@
 interface UserInput {
     employmentType: string;
     incomeType: string;
+    workLength:{
+        hoursPerDay: number;
+        daysPerWeek: number;
+    }
     income: number;
     deductions: number;
     taxCredits: number;
+
 }
 
 interface TaxRate {
@@ -34,6 +39,7 @@ const INCOME_TABLE: IncomeTable = {
     Monthly: 12,
     Fortnightly: 26,
     Weekly: 52,
+    Daily: 260,
     Hourly: 2080
 };
 
@@ -41,6 +47,7 @@ export function calculateTax(userInput: UserInput): number {
     const {incomeType, deductions, taxCredits } = userInput;
     let { income } = userInput;
 
+    // transfer all income to annual
     if (incomeType !== "Annual") {
         income *= INCOME_TABLE[incomeType];
     }
@@ -56,8 +63,8 @@ export function calculateTax(userInput: UserInput): number {
 
     tax -= deductions;
     tax -= taxCredits;
-    tax.toFixed(2);
-    return tax;
+    // tax should keep only 2 decimal places
+    return Math.round(tax * 100) / 100;
 }
 
 
