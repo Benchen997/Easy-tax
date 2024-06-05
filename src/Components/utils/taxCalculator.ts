@@ -6,6 +6,7 @@
 interface UserInput {
     employmentType: string;
     incomeType: string;
+    isBranched: boolean;
     workLength:{
         hoursPerDay: number;
         daysPerWeek: number;
@@ -43,23 +44,31 @@ const INCOME_TABLE: IncomeTable = {
     Hourly: 2080
 };
 
+
 export function calculateTax(userInput: UserInput): number {
-    const {incomeType, deductions, taxCredits } = userInput;
-    let { income } = userInput;
+    const {employmentType, incomeType, deductions, taxCredits } = userInput;
+    const {hoursPerDay, daysPerWeek} = userInput.workLength;
+    const { income } = userInput;
+    let annualIncome = 1;
 
     // transfer all income to annual
-    if (incomeType !== "Annual") {
-        income *= INCOME_TABLE[incomeType];
+    if (incomeType !== "Annual" && !userInput.isBranched) {
+        annualIncome = income * INCOME_TABLE[incomeType];
     }
-
-    const row = TAX_RATE_TABLE.find(row => income >= row.min && income <= row.max);
+    else {
+        employmentType === 'Contractor'
+            ? annualIncome = income * daysPerWeek * 52
+            : annualIncome = income * hoursPerDay * daysPerWeek * 52;
+    }
+    console.log(`Calculated annual income: ${annualIncome}`);
+    const row = TAX_RATE_TABLE.find(row => annualIncome >= row.min && annualIncome <= row.max);
 
     if (!row) {
         throw new Error('Income does not fall within any tax bracket');
     }
 
     const { base, rate, min } = row;
-    let tax = base + (income - min) * rate;
+    let tax = base + (annualIncome - min) * rate;
 
     tax -= deductions;
     tax -= taxCredits;

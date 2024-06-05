@@ -14,6 +14,9 @@ export default function TaxCalculatorSection() {
         useState({
                 employmentType: '',
                 incomeType: '',
+                // isBranched is used to determine if the user is a contractor/casual/part-time
+                // for those three special cases, the user will need to input working time
+                // instead of income type
                 isBranched: false,
                 workLength: {
                     hoursPerDay: 0,
