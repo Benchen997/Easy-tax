@@ -7,7 +7,7 @@ import AmountInput from "./components/AmountInput";
 import DeductionInput from "./components/DeductionInput";
 import {TaxCreditInput} from "./components/TaxCreditInput";
 import {CalculateButton} from "./components/CalculateButton";
-import BranchWrapper from "./BranchWrapper";
+import {WorkingTimeInput} from "./components/WorkingTimeInput";
 
 export default function TaxCalculatorSection() {
     const [userInput, setUserInput] =
@@ -73,6 +73,7 @@ export default function TaxCalculatorSection() {
         setUserInput(prev => ({
             ...prev,
             employmentType: newValue,
+            isBranched: false
         }));
 
     }
@@ -119,15 +120,22 @@ export default function TaxCalculatorSection() {
                             w-full p-12'>
             <h1 className='text-2xl mb-4 md:text-3xl font-bold'>Tax Calculator</h1>
 
-            <div className=''>
+            <div className='xl:grid xl:grid-cols-2'>
                 <EmployTypeSelect value={userInput.employmentType}
                                   onChange={handleEmployTypeChange} />
 
                 {/*selective rendering: if employment type = contractor/casual/part-time, show
                  working time input instead of income type */}
                 {
+                    userInput.isBranched && userInput.employmentType !== 'Contractor'
+                    ? <WorkingTimeInput timeUnit={"Hours"} value={userInput.workLength.hoursPerDay}
+                                          workingTimeOnChange={handleWorkingTimeChange}/>
+                    : null
+                }
+                {
                     userInput.isBranched
-                    ? (<BranchWrapper userInput={userInput} handleWorkingTimeOnChange={handleWorkingTimeChange}/>)
+                    ? <WorkingTimeInput timeUnit={"Days"} value={userInput.workLength.daysPerWeek}
+                                          workingTimeOnChange={handleWorkingTimeChange}/>
                     : (<IncomeTypeSelection value={userInput.incomeType} onChange={handleIncomeTypeChange} />)
                 }
 
@@ -140,6 +148,7 @@ export default function TaxCalculatorSection() {
                  <TaxCreditInput value={userInput.taxCredits}
                             taxCreditOnchange={handleTaxCreditChange}/>
             </div>
+
             <CalculateButton isSubmitDisabled={isSubmitDisabled} handleSubmit={handleSubmit} />
             {result !== 0 && (
                     <div className="mt-4">
