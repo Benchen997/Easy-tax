@@ -46,21 +46,24 @@ const INCOME_TABLE: IncomeTable = {
 
 
 export function calculateTax(userInput: UserInput): number {
-    const {employmentType, incomeType, deductions, taxCredits } = userInput;
-    const {hoursPerDay, daysPerWeek} = userInput.workLength;
-    const { income } = userInput;
-    let annualIncome = 1;
+    const { employmentType, incomeType, deductions, taxCredits } = userInput;
+    const { hoursPerDay, daysPerWeek } = userInput.workLength;
+    let { income } = userInput;  // Assign initial income value to annualIncome
+    let annualIncome = income;
+
+    console.log(`Initial income: ${annualIncome}`); // print initial income value
 
     // transfer all income to annual
-    if (incomeType !== "Annual" && !userInput.isBranched) {
+    if (incomeType !== "Annual") {
         annualIncome = income * INCOME_TABLE[incomeType];
+    } else if (userInput.isBranched) {
+        annualIncome = employmentType === 'Contractor'
+            ? income * daysPerWeek * 52
+            : income * hoursPerDay * daysPerWeek * 52;
     }
-    else {
-        employmentType === 'Contractor'
-            ? annualIncome = income * daysPerWeek * 52
-            : annualIncome = income * hoursPerDay * daysPerWeek * 52;
-    }
-    console.log(`Calculated annual income: ${annualIncome}`);
+
+    console.log(`Calculated annual income: ${annualIncome}`); // print calculated annual income
+
     const row = TAX_RATE_TABLE.find(row => annualIncome >= row.min && annualIncome <= row.max);
 
     if (!row) {
@@ -75,5 +78,6 @@ export function calculateTax(userInput: UserInput): number {
     // tax should keep only 2 decimal places
     return Math.round(tax * 100) / 100;
 }
+
 
 

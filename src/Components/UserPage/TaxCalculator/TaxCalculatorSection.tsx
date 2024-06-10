@@ -8,8 +8,13 @@ import DeductionInput from "./components/DeductionInput";
 import {TaxCreditInput} from "./components/TaxCreditInput";
 import {CalculateButton} from "./components/CalculateButton";
 import {WorkingTimeInput} from "./components/WorkingTimeInput";
+import {CircularProgress} from "@mui/material";
 
-export default function TaxCalculatorSection() {
+interface TaxCalculatorSectionProps {
+    setResult: (value: number) => void;
+}
+
+export default function TaxCalculatorSection({setResult}: TaxCalculatorSectionProps) {
     const [userInput, setUserInput] =
         useState({
                 employmentType: '',
@@ -28,7 +33,7 @@ export default function TaxCalculatorSection() {
             });
 
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
-    const [result, setResult] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     function validateUserInput() {
          return !(userInput.employmentType === ""
              || userInput.incomeType === ""
@@ -39,11 +44,14 @@ export default function TaxCalculatorSection() {
     useEffect(() => {
         setIsSubmitDisabled(!validateUserInput());
     }, [userInput]);
-
     async function handleSubmit() {
         try {
             console.log(userInput);
+            setIsLoading(true);
+            // sleep 3 seconds and then calculate tax
+            await new Promise(resolve => setTimeout(resolve, 1300));
             const tax = calculateTax(userInput);
+            setIsLoading(false);
             setResult(tax);
         } catch (error) {
             console.error("Error calculating tax:", error);
@@ -149,12 +157,12 @@ export default function TaxCalculatorSection() {
                             taxCreditOnchange={handleTaxCreditChange}/>
             </div>
 
-            <CalculateButton isSubmitDisabled={isSubmitDisabled} handleSubmit={handleSubmit} />
-            {result !== 0 && (
-                    <div className="mt-4">
-                        <h2>Your Calculated Tax: ${result}</h2>
-                    </div>
-                )}
+            <CalculateButton isSubmitDisabled={isSubmitDisabled} handleSubmit={handleSubmit}>
+                {isLoading
+                    ? <CircularProgress color="inherit" size={24} />
+                    : "Calculate"
+                }
+            </CalculateButton>
         </section>
     );
 }
