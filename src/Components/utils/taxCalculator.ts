@@ -3,6 +3,7 @@
 *
 */
 
+
 interface UserInput {
     employmentType: string;
     incomeType: string;
@@ -14,7 +15,6 @@ interface UserInput {
     income: number;
     deductions: number;
     taxCredits: number;
-
 }
 
 interface TaxRate {
@@ -45,7 +45,7 @@ const INCOME_TABLE: IncomeTable = {
 };
 
 
-export function calculateTax(userInput: UserInput): number {
+export function calculateTax(userInput: UserInput): { annualIncome: number; tax: number } {
     const { employmentType, incomeType, deductions, taxCredits } = userInput;
     const { hoursPerDay, daysPerWeek } = userInput.workLength;
     let { income } = userInput;  // Assign initial income value to annualIncome
@@ -76,7 +76,12 @@ export function calculateTax(userInput: UserInput): number {
     tax -= deductions;
     tax -= taxCredits;
     // tax should keep only 2 decimal places
-    return Math.round(tax * 100) / 100;
+    tax = Math.round(tax * 100) / 100
+
+    return {
+        annualIncome: annualIncome,
+        tax: tax
+    };
 }
 
 

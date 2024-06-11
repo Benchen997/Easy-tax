@@ -8,6 +8,9 @@ export default {
     extend: {
       colors: {
         'header-bg': '#154B5D',
+      },
+      height: {
+        '128': '32rem',
       }
     },
   },

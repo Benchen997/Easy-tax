@@ -7,15 +7,30 @@ import Result from "./ResultPage/Result";
 
 function App() {
     const [isResultOpen, setIsResultOpen] = useState(false);
-    const [result, setResult] = useState(0);
+    const [result, setResult] = useState({
+        annualIncome: 0,
+        tax: 0
+    });
+    const [statistics, setStatistics] = useState({
+        minTaxableIncome: 0,
+        maxTaxableIncome: 0,
+        avgTaxableIncome: 0,
+        rank: 0,
+        beatsPercentage: 0
+    });
 
     const handleCloseResult = () => {
         setIsResultOpen(false);
-        setResult(0); // Reset result state when closing the result page
+        setResult(()=>{
+            return {
+                annualIncome: 0,
+                tax: 0
+            }
+        }); // Reset result state when closing the result page
     };
 
     useEffect(() => {
-        if (result !== 0) {
+        if (result.tax !== 0) {
             setIsResultOpen(true);
         }
     }, [result]);
@@ -25,10 +40,14 @@ function App() {
             <Header />
             {isResultOpen
                 ? <Result
+                    statistics={statistics}
                     result={result}
                     setIsResultOpen={handleCloseResult}
                 />
-                : <TaxCalculatorSection setResult={setResult} />
+                : <TaxCalculatorSection
+                    setResult={setResult}
+                    setStatistics={setStatistics}
+                />
             }
             <AboutEasyTax>About Easy Tax</AboutEasyTax>
             <Terminology />

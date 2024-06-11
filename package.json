@@ -16,7 +16,10 @@
     "@mui/material": "^5.15.18",
     "@react-buddy/ide-toolbox": "^2.4.0",
     "@react-buddy/palette-mui": "^5.0.1",
+    "@types/echarts": "^4.9.22",
     "axios": "^1.7.2",
+    "echarts": "^5.5.0",
+    "mongodb": "^6.7.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

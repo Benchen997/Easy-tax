@@ -11,10 +11,17 @@ import {WorkingTimeInput} from "./components/WorkingTimeInput";
 import {CircularProgress} from "@mui/material";
 
 interface TaxCalculatorSectionProps {
-    setResult: (value: number) => void;
+    setResult: (value: { annualIncome: number; tax: number }) => void;
+    setStatistics: (value:{
+        minTaxableIncome: number;
+        maxTaxableIncome: number;
+        avgTaxableIncome: number;
+        rank: number;
+        beatsPercentage: number;
+    })=>void;
 }
 
-export default function TaxCalculatorSection({setResult}: TaxCalculatorSectionProps) {
+export default function TaxCalculatorSection({setResult, setStatistics}: TaxCalculatorSectionProps) {
     const [userInput, setUserInput] =
         useState({
                 employmentType: '',
@@ -50,9 +57,11 @@ export default function TaxCalculatorSection({setResult}: TaxCalculatorSectionPr
             setIsLoading(true);
             // sleep 3 seconds and then calculate tax
             await new Promise(resolve => setTimeout(resolve, 1300));
-            const tax = calculateTax(userInput);
+            const result = calculateTax(userInput);
+            //const statistics = await userIncomeStatistics(result.tax);
             setIsLoading(false);
-            setResult(tax);
+            setResult(result);
+            //setStatistics(statistics);
         } catch (error) {
             console.error("Error calculating tax:", error);
         }
