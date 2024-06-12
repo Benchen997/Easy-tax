@@ -5,15 +5,18 @@ import {CanvasRenderer} from 'echarts/renderers';
 
 interface GradeGaugeProps {
     userTaxableIncome: number;
+    minTaxableIncome: number;
+    maxTaxableIncome: number;
+    avgTaxableIncome: number;
 }
 
-export default function GradeGauge({userTaxableIncome}:GradeGaugeProps) {
+export default function GradeGauge({ userTaxableIncome,
+                                        minTaxableIncome,
+                                        maxTaxableIncome,
+                                        avgTaxableIncome }:GradeGaugeProps) {
+
     echarts.use([GaugeChart, CanvasRenderer]);
     const chartRef = useRef<HTMLDivElement>(null);
-
-    const minTaxableIncome = 35436;
-    const maxTaxableIncome = 320000;
-    const avgTaxableIncome = 94864;
 
     const getUserIncomeRange = (income: number) => {
         if (income <= minTaxableIncome) return (income / minTaxableIncome) * 0.33;
@@ -42,9 +45,9 @@ export default function GradeGauge({userTaxableIncome}:GradeGaugeProps) {
                         lineStyle: {
                             width: 6,
                             color: [
-                                [0.33, '#FFD700'], // 0 to minIncome (Yellow)
-                                [0.67, '#FFA500'], // minIncome to avgIncome (Orange)
-                                [1, '#FF4500'] // avgIncome to maxIncome (Red)
+                                [0.33, '#ABD0FD'], // 0 to minIncome
+                                [0.67, '#3D8CEE'], // minIncome to avgIncome
+                                [1, '#023D86'] // avgIncome to maxIncome
                             ]
                         }
                     },

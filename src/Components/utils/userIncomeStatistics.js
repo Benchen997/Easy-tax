@@ -1,53 +1,40 @@
-import {MongoClient} from 'mongodb';
 
-export async function userIncomeStatistics(userTaxableIncome) {
-    const uri = 'mongodb+srv://ben:TobeNO.1!@practicecluster01.legqqyp.mongodb.net/?retryWrites=true&w=majority&appName=PracticeCluster01'
-    const client = new MongoClient(uri,
-        { useNewUrlParser: true, useUnifiedTopology: true });
+export function userIncomeStatistics(userTaxableIncome) {
+    const defaultStatistics = {
+        minTaxableIncome: 3367,
+        maxTaxableIncome: 98126,
+        avgTaxableIncome: 50000,
+        rank: 451,
+        beatsPercentage: 0.449
+    };
 
-    try {
-        await client.connect();
-        const database = client.db('Users');
-        const collection = database.collection('Incomes');
+    return new Promise((resolve, reject) => {
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), 3000));
+        const fetchStatistics = fetch("http://localhost:5000/statistics")
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Response not OK');
+                }
+            })
+            .then(statistics => {
+                console.log(statistics);
+                // resolve with fetched statistics
+                resolve(statistics);
+            })
+            .catch(error => {
+                console.log("Error fetching statistics:", error);
+                // resolve with default statistics
+                resolve(defaultStatistics);
+            });
 
-        // Fetch all documents from the collection
-        const userData = await collection.find({}).toArray();
-
-        // Calculate min, max and average taxable income
-        let minTaxableIncome = Infinity;
-        let maxTaxableIncome = -Infinity;
-        let totalTaxableIncome = 0;
-
-        userData.forEach(user => {
-            const income = user.annualIncome;
-            if (income < minTaxableIncome) minTaxableIncome = income;
-            if (income > maxTaxableIncome) maxTaxableIncome = income;
-            totalTaxableIncome += income;
-        });
-
-        const avgTaxableIncome = totalTaxableIncome / userData.length;
-
-        // Sort userData based on annualIncome
-        const sortedUserData = userData.sort((a, b) => a.annualIncome - b.annualIncome);
-
-        // Determine the rank of the user's taxable income
-        const rank = sortedUserData.findIndex(user => user.annualIncome >= userTaxableIncome) + 1;
-
-        // Calculate the percentage of users the given income beats
-        const beatsPercentage = ((rank - 1) / userData.length) * 100;
-
-        return {
-            minTaxableIncome: minTaxableIncome,
-            maxTaxableIncome: maxTaxableIncome,
-            avgTaxableIncome: avgTaxableIncome,
-            rank: rank,
-            beatsPercentage: beatsPercentage
-        };
-    } catch (err) {
-        console.error(err);
-    } finally {
-        await client.close();
-    }
+        Promise.race([timeout, fetchStatistics])
+            .catch(error => {
+                console.log(error);
+                resolve(defaultStatistics);
+            });
+    });
 }
 
 

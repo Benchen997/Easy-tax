@@ -9,6 +9,7 @@ import {TaxCreditInput} from "./components/TaxCreditInput";
 import {CalculateButton} from "./components/CalculateButton";
 import {WorkingTimeInput} from "./components/WorkingTimeInput";
 import {CircularProgress} from "@mui/material";
+import {userIncomeStatistics} from "../../utils/userIncomeStatistics";
 
 interface TaxCalculatorSectionProps {
     setResult: (value: { annualIncome: number; tax: number }) => void;
@@ -51,17 +52,17 @@ export default function TaxCalculatorSection({setResult, setStatistics}: TaxCalc
     useEffect(() => {
         setIsSubmitDisabled(!validateUserInput());
     }, [userInput]);
+
     async function handleSubmit() {
+        console.log(userInput);
+        setIsLoading(true);
         try {
-            console.log(userInput);
-            setIsLoading(true);
-            // sleep 3 seconds and then calculate tax
-            await new Promise(resolve => setTimeout(resolve, 1300));
+            //await new Promise(resolve => setTimeout(resolve, 1300));
             const result = calculateTax(userInput);
-            //const statistics = await userIncomeStatistics(result.tax);
-            setIsLoading(false);
+            const stats = await userIncomeStatistics(result.tax);
             setResult(result);
-            //setStatistics(statistics);
+            setStatistics(stats);
+            setIsLoading(false);
         } catch (error) {
             console.error("Error calculating tax:", error);
         }
