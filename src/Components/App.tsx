@@ -1,7 +1,6 @@
 import Header from './UserPage/Header'
-import AboutEasyTax from "./UserPage/About";
 import TaxCalculatorSection from "./UserPage/TaxCalculator";
-import Terminology from "./UserPage/About/Terminology";
+import About from "./UserPage/About/About";
 import {useEffect, useState} from "react";
 import Result from "./ResultPage/Result";
 
@@ -49,8 +48,8 @@ function App() {
                     setStatistics={setStatistics}
                 />
             }
-            <AboutEasyTax>About Easy Tax</AboutEasyTax>
-            <Terminology />
+            {/*<AboutEasyTax>About Easy Tax</AboutEasyTax>*/}
+            <About />
         </div>
     );
 }

@@ -138,7 +138,7 @@ export default function TaxCalculatorSection({setResult, setStatistics}: TaxCalc
                             w-full p-12'>
             <h1 className='text-2xl mb-4 md:text-3xl font-bold'>Tax Calculator</h1>
 
-            <div className='xl:grid xl:grid-cols-2'>
+            <div className='md:grid md:grid-cols-2'>
                 <EmployTypeSelect value={userInput.employmentType}
                                   onChange={handleEmployTypeChange} />
 

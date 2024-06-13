@@ -29,6 +29,9 @@ export default function GradeGauge({ userTaxableIncome,
 
     useEffect(() => {
         const myChart = echarts.init(chartRef.current!);
+        window.addEventListener('resize', () => {
+            myChart.resize();
+        });
 
         const option = {
             series: [
@@ -125,7 +128,7 @@ export default function GradeGauge({ userTaxableIncome,
     }, [userIncomeRange, userTaxableIncome]);
 
     return (
-        <div className="flex w-full h-96 md:h-128 justify-center items-center" ref={chartRef}></div>
+        <div className="flex w-5/6 h-96 xl:w-full justify-center items-center" ref={chartRef}></div>
     );
 }
 

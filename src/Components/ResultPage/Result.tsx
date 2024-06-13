@@ -4,7 +4,8 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import {useState} from "react";
 import SharedOptionModal from "./components/SharedOptionModal";
 import GradeGauge from "./components/GradeGauge";
-import InfoTable from "./components/InfoTable";
+import ShareIcon from '@mui/icons-material/Share';
+import IncrementCounter from "./components/IncrementCounter";
 
 interface ResultProps {
     // callback function to manage state in App.tsx
@@ -28,9 +29,10 @@ export default function Result({statistics, result, setIsResultOpen }: ResultPro
     function handleResultClose() {
         setIsResultOpen(false);
     }
+
     return (
         /*
-        * @TODO:
+        * @DONE:
         *   - Tax result display
         *   - Income comparison with other users
         *   - Recalculate Button
@@ -46,25 +48,32 @@ export default function Result({statistics, result, setIsResultOpen }: ResultPro
                             avgTaxableIncome={statistics.avgTaxableIncome}
                 />
 
-                <div className="text-3xl p-2 mb-16 text-gray-500">
-                    <h1 >Your annual income is ${result.annualIncome} </h1>
-                    <h1>Your are ranked at {statistics.rank}.</h1>
-                    <h1>You have beat {statistics.beatsPercentage * 100} % users ! </h1>
+                <div className="text-2xl xl:text-3xl p-2 mb-16 text-gray-500 text-center">
+                    <h1 >Your annual income exclude tax is
+                        <strong className='text-pink-700'> $</strong>
+                        <IncrementCounter target={result.annualIncome - result.tax}/></h1>
+                    <h1>Your are ranked at <IncrementCounter target={statistics.rank}/>.</h1>
+                    <h1>You have beat <IncrementCounter target={statistics.beatsPercentage * 100 }/>
+                        <strong className='text-pink-700'>%</strong> users ! </h1>
                 </div>
-                <Button className="mt-10" size={'large'} variant={"contained"} startIcon={<ReplayIcon/>}
-                        onClick={handleResultClose}> Re-calculate </Button>
-            </div>
-            <Divider variant={"middle"} flexItem={true}/>
-            <div className="p-3 mb-3">
-                <InfoTable/>
+
             </div>
 
-            <Button variant={"contained"} size={"large"}
-                onClick={() => setIsSharedOptionOpen(true)}>Share</Button>
-            <SharedOptionModal
-                isSharedOptionOpen={isSharedOptionOpen}
-                setIsSharedOptionOpen={setIsSharedOptionOpen}
-            />
+            <span className="flex flex-row justify-between items-center p-5 mb-10">
+                <Button sx={{minWidth: 145}}
+                        variant={"contained"} startIcon={<ReplayIcon/>}
+                        onClick={handleResultClose}> Re-calculate </Button>
+
+                <Divider orientation={"vertical"} flexItem={true}/>
+
+                <Button sx={{minWidth: 145}}
+                        variant={"contained"} startIcon={<ShareIcon/>}
+                    onClick={() => setIsSharedOptionOpen(true)}>Share</Button>
+                <SharedOptionModal
+                    isSharedOptionOpen={isSharedOptionOpen}
+                    setIsSharedOptionOpen={setIsSharedOptionOpen}
+                />
+            </span>
         </section>
     );
 }
