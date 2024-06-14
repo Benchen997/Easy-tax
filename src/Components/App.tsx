@@ -3,6 +3,7 @@ import TaxCalculatorSection from "./UserPage/TaxCalculator";
 import About from "./UserPage/About/About";
 import {useEffect, useState} from "react";
 import Result from "./ResultPage/Result";
+import Footer from "./UserPage/Footer";
 
 function App() {
     const [isResultOpen, setIsResultOpen] = useState(false);
@@ -50,6 +51,7 @@ function App() {
             }
             {/*<AboutEasyTax>About Easy Tax</AboutEasyTax>*/}
             <About />
+            <Footer />
         </div>
     );
 }

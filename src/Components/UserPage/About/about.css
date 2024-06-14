@@ -1,6 +1,5 @@
 .about-container {
     display: flex;
-    font-family: "Lato", sans-serif;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -41,6 +40,33 @@
     font-size: 1.2rem;
     color: gray;
     margin-bottom: 20px;
+}
+
+.info-table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    padding: 45px;
+    margin-bottom: 20px;
+    border-left: #bc690d 2px solid;
+}
+.info-table-container h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0d4c82;
+    margin-bottom: 20px;
+}
+.info-table-container p {
+    font-size: 1.2rem;
+    color: gray;
+    margin-bottom: 20px;
+    font-style: oblique;
+}
+.info-table-container .info-table {
+    width: fit-content;
+    border-collapse: collapse;
 }
 
 @media (max-width: 768px) {

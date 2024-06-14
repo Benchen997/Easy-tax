@@ -22,7 +22,15 @@ interface ResultProps {
         tax: number;
     };
 }
-
+/*
+* Result component is a child component of App.tsx
+* It displays the user's annual income, tax, rank, and the percentage of users that the user has beaten
+* It also displays a gauge that shows the user's tax in comparison to the average, minimum, and maximum tax
+* It also displays a button to re-calculate the user's income and a button to share the user's result
+* @param statistics: object containing the statistics of the user's income
+* @param setIsResultOpen: function to manage the state of the result page
+* @param result: object containing the user's annual income and tax
+* */
 export default function Result({statistics, result, setIsResultOpen }: ResultProps) {
     const [isSharedOptionOpen, setIsSharedOptionOpen] = useState(false);
 
@@ -31,13 +39,6 @@ export default function Result({statistics, result, setIsResultOpen }: ResultPro
     }
 
     return (
-        /*
-        * @DONE:
-        *   - Tax result display
-        *   - Income comparison with other users
-        *   - Recalculate Button
-        *   - Share Button
-        * */
         <section className='bg-gray-100 flex flex-col justify-center items-center rounded-lg w-full'>
 
 

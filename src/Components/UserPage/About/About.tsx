@@ -1,5 +1,6 @@
 import "./about.css";
 import Divider from "@mui/material/Divider";
+import InfoTable from "./components/InfoTable";
 
 export default function About() {
     const taxDeductionContent = "A tax deduction is a reduction of income that is able to be taxed and is commonly a result of expenses, particularly those incurred to produce additional income. The difference between deductions, exemptions and credits is that deductions and exemptions both reduce taxable income, while credits reduce tax.";
@@ -10,7 +11,16 @@ export default function About() {
                 About
             </h1>
             <Divider variant={"middle"} flexItem={true}/>
-
+            <div className="info-table-container">
+                <h2>
+                    Taxable Income Level
+                </h2>
+                <p>
+                    The following table shows the classification of taxable income levels.
+                </p>
+                <InfoTable/>
+            </div>
+            <Divider variant={"middle"} flexItem={true}/>
             <div className="info-container"
                  id={"tax-deduction"}>
 
