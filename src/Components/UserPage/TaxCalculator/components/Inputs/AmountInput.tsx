@@ -1,31 +1,30 @@
-import React, {useState} from 'react';
-import {InputAdornment, OutlinedInput} from "@mui/material";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import FormHelperText from '@mui/material/FormHelperText';
+import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {FormControl, FormHelperText, InputAdornment, InputLabel, OutlinedInput} from '@mui/material';
+import {setIncome} from '../../../../../Features/userInputSlice';
 
-interface AmountInputProps {
-    value: number;
-    type:string;
-    amountOnChange: (value: number) => void;
-}
+export default function AmountInput() {
+    const dispatch = useDispatch();
+    // @ts-ignore
+    const value = useSelector((state) => state.userInput.income);
+    // @ts-ignore
+    const type = useSelector((state) => state.userInput.incomeType);
+    const [error, setError] = React.useState(false);
 
-export default function AmountInput({ value, type,amountOnChange }: AmountInputProps) {
-    const [error, setError] = useState(false);
-    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    // @ts-ignore
+    const handleChange = (event) => {
         const inputValue = event.target.value;
         const isValidNumber = /^\d*\.?\d*$/.test(inputValue);
 
         if (isValidNumber) {
             setError(false);
             const numericValue = inputValue === '' ? 0 : parseFloat(inputValue);
-            //validate input is a number and then pass back to parent.
-            amountOnChange(numericValue);
+            // Dispatch the action to update the Redux store
+            dispatch(setIncome(numericValue));
         } else {
             setError(true);
         }
-    }
-
+    };
 
     return (
         <div>
@@ -37,7 +36,7 @@ export default function AmountInput({ value, type,amountOnChange }: AmountInputP
                     onChange={handleChange}
                     endAdornment={<InputAdornment position="end">$</InputAdornment>}
                     label="Amount"
-                    autoComplete = 'false'
+                    autoComplete='false'
                 />
                 {error ? (
                     <FormHelperText>Incorrect entry. Only numbers are allowed.</FormHelperText>
@@ -48,4 +47,5 @@ export default function AmountInput({ value, type,amountOnChange }: AmountInputP
         </div>
     );
 }
+
 

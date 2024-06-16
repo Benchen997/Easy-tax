@@ -1,13 +1,13 @@
 import {calculateTax} from "../../utils/taxCalculator"
-import EmployTypeSelect from "./components/EmployTypeSelect";
-import IncomeTypeSelection from "./components/IncomeTypeSelection";
+import EmployTypeSelect from "./components/Inputs/EmployTypeSelect";
+import IncomeTypeSelection from "./components/Inputs/IncomeTypeSelection";
 import {useEffect, useState} from "react";
 import {SelectChangeEvent} from "@mui/material/Select";
-import AmountInput from "./components/AmountInput";
-import DeductionInput from "./components/DeductionInput";
-import {TaxCreditInput} from "./components/TaxCreditInput";
-import {CalculateButton} from "./components/CalculateButton";
-import {WorkingTimeInput} from "./components/WorkingTimeInput";
+import AmountInput from "./components/Inputs/AmountInput";
+import DeductionInput from "./components/Inputs/DeductionInput";
+import {TaxCreditInput} from "./components/Inputs/TaxCreditInput";
+import {CalculateButton} from "./components/Inputs/CalculateButton";
+import {WorkingTimeInput} from "./components/Inputs/WorkingTimeInput";
 import {CircularProgress} from "@mui/material";
 import {userIncomeStatistics} from "../../utils/userIncomeStatistics";
 
