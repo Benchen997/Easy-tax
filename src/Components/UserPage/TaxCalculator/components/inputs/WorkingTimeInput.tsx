@@ -25,8 +25,8 @@ export function WorkingTimeInput({timeUnit, workingTimeOnChange, value}:WorkingT
         }
     }
     return (
-        <div>
-            <FormControl sx={{ m: 1, maxWidth: 200 }} variant="outlined" error={error}>
+        <>
+            <FormControl sx={{ m: 1, maxWidth:"80%"}} variant="outlined" error={error}>
                 <InputLabel htmlFor="outlined-adornment-working-time">Working {timeUnit}</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-working-time"
@@ -47,6 +47,6 @@ export function WorkingTimeInput({timeUnit, workingTimeOnChange, value}:WorkingT
 
                 )}
             </FormControl>
-        </div>
+        </>
     );
 }

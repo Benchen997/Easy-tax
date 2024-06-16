@@ -1,53 +1,51 @@
-import FormControl from "@mui/material/FormControl";
-import React, {useState} from "react";
-import InputLabel from "@mui/material/InputLabel";
+import React, {useState} from 'react';
 import {InputAdornment, OutlinedInput} from "@mui/material";
-import FormHelperText from "@mui/material/FormHelperText";
-import HelpIcon from '@mui/icons-material/Help';
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import FormHelperText from '@mui/material/FormHelperText';
 
-interface DeductionInputProps {
-    value:number;
-    deductionOnChange: (value:number) => void;
+interface AmountInputProps {
+    value: number;
+    type:string;
+    amountOnChange: (value: number) => void;
 }
 
-export default function DeductionInput({value,deductionOnChange}:DeductionInputProps) {
-
+export default function AmountInput({ value, type,amountOnChange }: AmountInputProps) {
     const [error, setError] = useState(false);
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const inputValue = event.target.value;
         const isValidNumber = /^\d*\.?\d*$/.test(inputValue);
+
         if (isValidNumber) {
             setError(false);
             const numericValue = inputValue === '' ? 0 : parseFloat(inputValue);
             //validate input is a number and then pass back to parent.
-            deductionOnChange(numericValue);
+            amountOnChange(numericValue);
         } else {
             setError(true);
         }
     }
+
+
     return (
-        <div>
-            <FormControl sx={{ m: 1, maxWidth: 200 }} variant="outlined" error={error}>
-                <InputLabel htmlFor="outlined-adornment-deduction">Deduction</InputLabel>
+        <>
+            <FormControl sx={{ m: 1, maxWidth:"80%"}} variant="outlined" error={error}>
+                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                 <OutlinedInput
-                    id="outlined-adornment-deduction"
+                    id="outlined-adornment-amount"
                     value={value === 0 ? '' : value.toString()}
                     onChange={handleChange}
                     endAdornment={<InputAdornment position="end">$</InputAdornment>}
-                    label="Deduction"
+                    label="Amount"
                     autoComplete = 'false'
                 />
                 {error ? (
                     <FormHelperText>Incorrect entry. Only numbers are allowed.</FormHelperText>
                 ) : (
-                    <FormHelperText> Total Tax Deductions &nbsp;
-                        <a href="#tax-deduction" style={{textDecoration: 'none', color: 'inherit'}}>
-                            <HelpIcon sx={{fontSize: 15}}/>
-                        </a>
-                    </FormHelperText>
-
+                    <FormHelperText>Your {type} Income</FormHelperText>
                 )}
             </FormControl>
-        </div>
+        </>
     );
 }
+

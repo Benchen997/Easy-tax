@@ -10,4 +10,58 @@ body {
     font-family: "Lato", sans-serif;
     height: 100vh;
     scroll-behavior: smooth;
+    justify-content: center;
+    align-items: center;
+}
+
+.tax-calculator-container {
+   display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 45px;
+    background-color: white;
+}
+.accordion-container {
+    width: 70%;
+    background-color: #fff;
+    border-radius: 10px;
+    color:#66ddf7;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+.accordion-container::before {
+    content: '';
+    width: 200%;
+    height: 200%;
+    background-color: #fff;
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    background-image: conic-gradient(transparent, #2f84f1,transparent 20%);
+    z-index: -2;
+    animation: rotate 5s linear infinite;
+}
+.accordion-container::after {
+    content: '';
+    position: absolute;
+    inset:3px;
+    background-color: #fff;
+    border-radius: 8px;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.to-about-hyperlink{
+    color: #007bff;
+    text-decoration: none;
+}
+.to-about-hyperlink:hover{
+    color: #0056b3;
+    font-weight: bold;
 }

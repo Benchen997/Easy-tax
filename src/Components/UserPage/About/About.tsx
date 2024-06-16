@@ -6,7 +6,7 @@ export default function About() {
     const taxDeductionContent = "A tax deduction is a reduction of income that is able to be taxed and is commonly a result of expenses, particularly those incurred to produce additional income. The difference between deductions, exemptions and credits is that deductions and exemptions both reduce taxable income, while credits reduce tax.";
     const taxCreditContent = "A tax credit is an amount of money that taxpayers are permitted to subtract, dollar for dollar, from the income taxes that they owe. Tax credits are more favorable than tax deductions or exemptions because they actually reduce the tax due, not just the amount of taxable income.";
     return (
-        <section className="about-container">
+        <section className="about-container" id="about">
             <h1>
                 About
             </h1>

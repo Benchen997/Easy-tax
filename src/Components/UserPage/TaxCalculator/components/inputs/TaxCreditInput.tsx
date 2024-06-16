@@ -26,8 +26,8 @@ export function TaxCreditInput({value,taxCreditOnchange}:TaxCreditInputProps) {
         }
     }
     return (
-        <div>
-            <FormControl sx={{ m: 1, maxWidth: 200 }} variant="outlined" error={error}>
+        <>
+            <FormControl sx={{ m: 1, maxWidth:"80%"}} variant="outlined" error={error}>
                 <InputLabel htmlFor="outlined-adornment-tax-credit">Tax Credit</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-tax-credit"
@@ -48,6 +48,6 @@ export function TaxCreditInput({value,taxCreditOnchange}:TaxCreditInputProps) {
 
                 )}
             </FormControl>
-        </div>
+        </>
     );
 }

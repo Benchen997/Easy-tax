@@ -9,11 +9,11 @@ interface EmploymentTypeSelectProps {
     onChange: (event: SelectChangeEvent<string>) => void;
 }
 
-export default function EmploymentTypeSelect({ value, onChange}: EmploymentTypeSelectProps) {
+export default function EmploymentTypeSelector({ value, onChange}: EmploymentTypeSelectProps) {
 
     return (
-        <div>
-            <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <>
+            <FormControl sx={{ m: 1, minWidth:"80%"}}>
                 <InputLabel id="employment-type-select-label">Employment Type</InputLabel>
                 <Select
                     labelId="employment-type-select-label"
@@ -33,7 +33,7 @@ export default function EmploymentTypeSelect({ value, onChange}: EmploymentTypeS
                 </Select>
                 <FormHelperText>Choose your employment type</FormHelperText>
             </FormControl>
-        </div>
+        </>
     );
 }
 

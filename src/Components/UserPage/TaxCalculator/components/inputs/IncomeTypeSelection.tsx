@@ -12,9 +12,9 @@ interface IncomeTypeSelectionProps {
 
 export default function IncomeTypeSelection({onChange, value} : IncomeTypeSelectionProps) {
     return (
-        <div>
+        <>
             {/* m: margin, 1: 1rem, minWith = min-width in css*/}
-            <FormControl sx={{ m: 1, minWidth: 200 }}>
+            <FormControl sx={{ m: 1, minWidth:"80%"}}>
                 <InputLabel id="income-type-select-label">Income Type</InputLabel>
                 <Select
                   labelId="income-type-select-label"
@@ -35,6 +35,6 @@ export default function IncomeTypeSelection({onChange, value} : IncomeTypeSelect
                 </Select>
                 <FormHelperText>Choose your income type</FormHelperText>
             </FormControl>
-        </div>
+        </>
     );
 }

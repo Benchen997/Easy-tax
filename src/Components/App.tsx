@@ -37,7 +37,7 @@ function App() {
 
     return (
         <div>
-            <Header />
+            <Header/>
             {isResultOpen
                 ? <Result
                     statistics={statistics}
@@ -50,8 +50,8 @@ function App() {
                 />
             }
             {/*<AboutEasyTax>About Easy Tax</AboutEasyTax>*/}
-            <About />
-            <Footer />
+            <About/>
+            <Footer/>
         </div>
     );
 }

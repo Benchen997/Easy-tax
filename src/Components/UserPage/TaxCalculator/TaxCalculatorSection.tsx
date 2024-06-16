@@ -1,15 +1,12 @@
 import {calculateTax} from "../../utils/taxCalculator"
-import EmployTypeSelect from "./components/EmployTypeSelect";
-import IncomeTypeSelection from "./components/IncomeTypeSelection";
 import {useEffect, useState} from "react";
 import {SelectChangeEvent} from "@mui/material/Select";
-import AmountInput from "./components/AmountInput";
-import DeductionInput from "./components/DeductionInput";
-import {TaxCreditInput} from "./components/TaxCreditInput";
-import {CalculateButton} from "./components/CalculateButton";
-import {WorkingTimeInput} from "./components/WorkingTimeInput";
+import {CalculateButton} from "./components/inputs/CalculateButton";
 import {CircularProgress} from "@mui/material";
 import {userIncomeStatistics} from "../../utils/userIncomeStatistics";
+import EmploymentTypeAccordion from "./components/EmploymentTypeAccordion";
+import {IncomeTypeAccordion} from "./components/IncomeTypeAccordion";
+import AmountAndOthersAccordion from "./components/AmountAndOthersAccordion";
 
 interface TaxCalculatorSectionProps {
     setResult: (value: { annualIncome: number; tax: number }) => void;
@@ -133,43 +130,23 @@ export default function TaxCalculatorSection({setResult, setStatistics}: TaxCalc
     }
 
     return (
-        <section className='bg-gray-100 flex flex-col justify-center items-center
-                            rounded-lg
-                            w-full p-12'>
-            <h1 className='text-2xl mb-4 md:text-3xl font-bold'>Tax Calculator</h1>
+        <section className='tax-calculator-container'>
+            <EmploymentTypeAccordion employmentType={userInput.employmentType}
+                                     handleEmployTypeChange={handleEmployTypeChange}/>
 
-            <div className='md:grid md:grid-cols-2'>
-                <EmployTypeSelect value={userInput.employmentType}
-                                  onChange={handleEmployTypeChange} />
 
-                {/*selective rendering: if employment type = contractor/casual/part-time, show
-                 working time input instead of income type */}
-                {
-                    userInput.isBranched && userInput.employmentType !== 'Contractor'
-                    ? <WorkingTimeInput timeUnit={"Hours"} value={userInput.workLength.hoursPerDay}
-                                          workingTimeOnChange={handleWorkingTimeChange}/>
-                    : null
-                }
-                {
-                    userInput.isBranched
-                    ? <WorkingTimeInput timeUnit={"Days"} value={userInput.workLength.daysPerWeek}
-                                          workingTimeOnChange={handleWorkingTimeChange}/>
-                    : (<IncomeTypeSelection value={userInput.incomeType} onChange={handleIncomeTypeChange} />)
-                }
+            <IncomeTypeAccordion userInput={userInput}
+                                 handleIncomeTypeChange={handleIncomeTypeChange}
+                                 handleWorkingTimeChange={handleWorkingTimeChange}/>
+            <AmountAndOthersAccordion userInput={userInput}
+                                      handleAmountChange={handleAmountChange}
+                                      handleDeductionChange={handleDeductionChange}
+                                      handleTaxCreditChange={handleTaxCreditChange}/>
 
-                <AmountInput value={userInput.income}
-                         type={userInput.incomeType}
-                         amountOnChange={handleAmountChange} />
-                <DeductionInput value={userInput.deductions}
-                                deductionOnChange={handleDeductionChange}/>
-
-                 <TaxCreditInput value={userInput.taxCredits}
-                            taxCreditOnchange={handleTaxCreditChange}/>
-            </div>
 
             <CalculateButton isSubmitDisabled={isSubmitDisabled} handleSubmit={handleSubmit}>
                 {isLoading
-                    ? <CircularProgress color="inherit" size={24} />
+                    ? <CircularProgress color="inherit" size={24}/>
                     : "Calculate"
                 }
             </CalculateButton>
