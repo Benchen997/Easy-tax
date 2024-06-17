@@ -12,20 +12,26 @@ function App() {
         annualIncome: 0,
         tax: 0
     });
-    const [statistics, setStatistics] = useState({
+    const initialStatistics = {
         minTaxableIncome: 0,
         maxTaxableIncome: 0,
         avgTaxableIncome: 0,
         rank: 0,
         beatsPercentage: 0
-    });
+    };
+    const [statistics, setStatistics] = useState(initialStatistics);
     function handleResultOpen() {
-        result.annualIncome !== 0
-            ? setIsResultOpen(true)
-            : setIsResultOpen(false);
+        if (result.annualIncome == 0) {
+            setIsResultOpen(false);
+            setStatistics(initialStatistics);
+        }
+        else {
+            setIsResultOpen(true);
+        }
+
     }
     useEffect(() => {
-        handleResultOpen()
+        handleResultOpen();
     }, [result]);
     return (
         <div>
@@ -37,7 +43,6 @@ function App() {
             />
             <ResultAccordion result={result}
                              setResult={setResult}
-                             setReStart={setReStart}
                              statistics={statistics}
                              isResultOpen={isResultOpen}/>
             <About/>

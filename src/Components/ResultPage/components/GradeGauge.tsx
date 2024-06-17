@@ -19,14 +19,13 @@ export default function GradeGauge({ userTaxableIncome,
     const chartRef = useRef<HTMLDivElement>(null);
 
     const getUserIncomeRange = (income: number) => {
-        if (income <= minTaxableIncome) return (income / minTaxableIncome) * 0.33;
+        if (income <= minTaxableIncome) return 0;
         if (income <= avgTaxableIncome) return 0.33 + ((income - minTaxableIncome) / (avgTaxableIncome - minTaxableIncome)) * 0.34;
         if (income <= maxTaxableIncome) return 0.67 + ((income - avgTaxableIncome) / (maxTaxableIncome - avgTaxableIncome)) * 0.33;
         return 1;
     };
 
     const userIncomeRange = getUserIncomeRange(userTaxableIncome);
-
     useEffect(() => {
         const myChart = echarts.init(chartRef.current!);
         window.addEventListener('resize', () => {

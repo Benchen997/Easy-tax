@@ -8,6 +8,8 @@ export default function IncrementCounter({ target }: IncrementCounterProps) {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
+        setCount(0); // Reset count when target changes
+
         const increment = target / 100;
 
         const updateCounter = () => {
@@ -21,13 +23,13 @@ export default function IncrementCounter({ target }: IncrementCounterProps) {
             });
         };
 
-        if (count < target) {
-            const interval = setInterval(updateCounter, 30);
-            return () => clearInterval(interval);
-        }
-    }, [count, target]);
+        const interval = setInterval(updateCounter, 30);
+
+        return () => clearInterval(interval);
+    }, [target]);
 
     return (
         <p className="inline-block text-pink-700 text-2xl">{Math.floor(count)}</p>
     );
 }
+

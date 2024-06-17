@@ -3,19 +3,28 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EmploymentTypeSelector from "./inputs/EmploymentTypeSelector";
 import {SelectChangeEvent} from "@mui/material/Select";
 import Divider from "@mui/material/Divider";
+import {useEffect, useState} from "react";
 
 interface EmploymentTypeAccordionProps {
     employmentType: string;
     handleEmployTypeChange: (event: SelectChangeEvent<string>) => void;
+    reStart: boolean;
 }
 export default function EmploymentTypeAccordion(
     {
         employmentType,
-        handleEmployTypeChange
+        handleEmployTypeChange,
+        reStart
     }: EmploymentTypeAccordionProps) {
+    const [expand, setExpand] = useState(false);
+    useEffect(() => {
+        setExpand(reStart);
+    }, [reStart]);
     return (
         <>
-            <Accordion className="accordion-container">
+            <Accordion className="accordion-container"
+                            defaultExpanded={expand}
+            >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="employ-accordion"

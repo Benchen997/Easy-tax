@@ -37,7 +37,7 @@ export default function TaxCalculatorSection({setResult, setStatistics, reStart,
     useEffect(() => {
         if (reStart) {
             setUserInput(initialUserInput);
-            window.location.href = '#header';
+            window.location.href = '#result';
             console.log('restarting');
             console.log(userInput);
             setReStart(false);
@@ -66,6 +66,7 @@ export default function TaxCalculatorSection({setResult, setStatistics, reStart,
             setResult(result);
             setStatistics(stats);
             setIsLoading(false);
+            setReStart(true);
         } catch (error) {
             console.error("Error calculating tax:", error);
         }
@@ -138,7 +139,9 @@ export default function TaxCalculatorSection({setResult, setStatistics, reStart,
     return (
         <section className='tax-calculator-container'>
             <EmploymentTypeAccordion employmentType={userInput.employmentType}
-                                     handleEmployTypeChange={handleEmployTypeChange}/>
+                                     handleEmployTypeChange={handleEmployTypeChange}
+                                     reStart={reStart}
+            />
 
 
             <IncomeTypeAccordion userInput={userInput}

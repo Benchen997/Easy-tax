@@ -14,7 +14,6 @@ interface ResultAccordionProps {
         tax: number;
     }
     setResult: (value: {annualIncome: number; tax: number}) => void;
-    setReStart: (value: boolean) => void;
     statistics:{
         minTaxableIncome: number;
         maxTaxableIncome: number;
@@ -26,17 +25,17 @@ interface ResultAccordionProps {
 }
 export function ResultAccordion({result,
                                     setResult,
-                                    setReStart,
                                     statistics,
                                     isResultOpen}: ResultAccordionProps) {
     const [isSharedOptionOpen, setIsSharedOptionOpen] = useState(false);
+    console.log(`received stats: `, statistics);
     function handleOnClick() {
         setResult({annualIncome: 0, tax: 0});
-        setReStart(true);
+        window.location.href = '#header';
     }
 
     return (
-        <div className="result-wrapper">
+        <div className="result-wrapper" id="#result">
             <Accordion className="accordion-container"
                           expanded={isResultOpen}
                           disabled={!isResultOpen}
@@ -58,8 +57,8 @@ export function ResultAccordion({result,
                     <Divider variant={"fullWidth"} orientation={"horizontal"}/>
                     <div className="w-full flex md:p-10 flex-col justify-center items-center">
                         <h1>Your are ranked at <IncrementCounter target={statistics.rank}/>.</h1>
-                        <h1>You have beat <IncrementCounter target={statistics.beatsPercentage * 100}/>
-                            <strong className='text-pink-700'>%</strong> users ! </h1>
+                        <h1>You have beat
+                            <strong className='text-pink-700'> {statistics.beatsPercentage}%</strong> users ! </h1>
                         <GradeGauge userTaxableIncome={result.tax}
                             minTaxableIncome={statistics.minTaxableIncome}
                             maxTaxableIncome={statistics.maxTaxableIncome}

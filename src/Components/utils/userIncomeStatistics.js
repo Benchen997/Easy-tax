@@ -7,10 +7,10 @@ export function userIncomeStatistics(userTaxableIncome) {
         rank: 451,
         beatsPercentage: 0.449
     };
-
+    const api = `http://localhost:5000/v1/statistics?userTaxableIncome=${userTaxableIncome}`;
     return new Promise((resolve, reject) => {
         const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), 3000));
-        const fetchStatistics = fetch("http://localhost:5000/statistics")
+        const fetchStatistics = fetch(api)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -19,7 +19,7 @@ export function userIncomeStatistics(userTaxableIncome) {
                 }
             })
             .then(statistics => {
-                console.log(statistics);
+                console.log(`Fetched statistics:`, statistics);
                 // resolve with fetched statistics
                 resolve(statistics);
             })
