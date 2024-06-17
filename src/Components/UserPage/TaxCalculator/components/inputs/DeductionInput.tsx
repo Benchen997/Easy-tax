@@ -27,7 +27,7 @@ export default function DeductionInput({value,deductionOnChange}:DeductionInputP
     }
     return (
         <>
-            <FormControl sx={{ m: 1, maxWidth:"80%"}} variant="outlined" error={error}>
+            <FormControl sx={{ m: 1, minWidth:309.5}} variant="outlined" error={error}>
                 <InputLabel htmlFor="outlined-adornment-deduction">Deduction</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-deduction"
@@ -40,7 +40,7 @@ export default function DeductionInput({value,deductionOnChange}:DeductionInputP
                 {error ? (
                     <FormHelperText>Incorrect entry. Only numbers are allowed.</FormHelperText>
                 ) : (
-                    <FormHelperText> Total Tax Deductions &nbsp;
+                    <FormHelperText> Total Tax Deductions (if applicable) &nbsp;
                         <a href="#tax-deduction" style={{textDecoration: 'none', color: 'inherit'}}>
                             <HelpIcon sx={{fontSize: 15}}/>
                         </a>

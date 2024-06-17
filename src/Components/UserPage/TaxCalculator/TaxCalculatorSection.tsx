@@ -1,8 +1,6 @@
 import {calculateTax} from "../../utils/taxCalculator"
 import {useEffect, useState} from "react";
 import {SelectChangeEvent} from "@mui/material/Select";
-import {CalculateButton} from "./components/inputs/CalculateButton";
-import {CircularProgress} from "@mui/material";
 import {userIncomeStatistics} from "../../utils/userIncomeStatistics";
 import EmploymentTypeAccordion from "./components/EmploymentTypeAccordion";
 import {IncomeTypeAccordion} from "./components/IncomeTypeAccordion";
@@ -17,26 +15,34 @@ interface TaxCalculatorSectionProps {
         rank: number;
         beatsPercentage: number;
     })=>void;
+    reStart: boolean;
+    setReStart: (value: boolean) => void;
 }
 
-export default function TaxCalculatorSection({setResult, setStatistics}: TaxCalculatorSectionProps) {
-    const [userInput, setUserInput] =
-        useState({
-                employmentType: '',
-                incomeType: '',
-                // isBranched is used to determine if the user is a contractor/casual/part-time
-                // for those three special cases, the user will need to input working time
-                // instead of income type
-                isBranched: false,
-                workLength: {
-                    hoursPerDay: 0,
-                    daysPerWeek: 0
-                },
-                income: 0,
-                deductions: 0,
-                taxCredits: 0
-            });
+export default function TaxCalculatorSection({setResult, setStatistics, reStart, setReStart}: TaxCalculatorSectionProps) {
+    const initialUserInput = {
+        employmentType: '',
+        incomeType: '',
+        isBranched: false,
+        workLength: {
+            hoursPerDay: 0,
+            daysPerWeek: 0
+        },
+        income: 0,
+        deductions: 0,
+        taxCredits: 0
+    };
+    const [userInput, setUserInput] = useState(initialUserInput);
 
+    useEffect(() => {
+        if (reStart) {
+            setUserInput(initialUserInput);
+            window.location.href = '#header';
+            console.log('restarting');
+            console.log(userInput);
+            setReStart(false);
+        }
+    }, [reStart]);
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     function validateUserInput() {
@@ -141,15 +147,12 @@ export default function TaxCalculatorSection({setResult, setStatistics}: TaxCalc
             <AmountAndOthersAccordion userInput={userInput}
                                       handleAmountChange={handleAmountChange}
                                       handleDeductionChange={handleDeductionChange}
-                                      handleTaxCreditChange={handleTaxCreditChange}/>
+                                      handleTaxCreditChange={handleTaxCreditChange}
+                                      isSubmitDisabled={isSubmitDisabled}
+                                      handleSubmit={handleSubmit}
+                                      isLoading={isLoading}
+            />
 
-
-            <CalculateButton isSubmitDisabled={isSubmitDisabled} handleSubmit={handleSubmit}>
-                {isLoading
-                    ? <CircularProgress color="inherit" size={24}/>
-                    : "Calculate"
-                }
-            </CalculateButton>
         </section>
     );
 }

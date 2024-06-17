@@ -128,7 +128,7 @@ export default function GradeGauge({ userTaxableIncome,
     }, [userIncomeRange, userTaxableIncome]);
 
     return (
-        <div className="flex w-5/6 h-96 xl:w-full justify-center items-center" ref={chartRef}></div>
+        <div className="flex w-full h-96 justify-center items-center z-10" ref={chartRef}></div>
     );
 }
 

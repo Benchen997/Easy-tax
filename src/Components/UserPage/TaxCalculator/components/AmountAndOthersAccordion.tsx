@@ -1,8 +1,10 @@
-import {Accordion, AccordionDetails, AccordionSummary} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, CircularProgress} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AmountInput from "./inputs/AmountInput";
 import DeductionInput from "./inputs/DeductionInput";
 import {TaxCreditInput} from "./inputs/TaxCreditInput";
+import Divider from "@mui/material/Divider";
+import {CalculateButton} from "./inputs/CalculateButton";
 
 interface AmountAndOthersAccordionProps {
     userInput: {
@@ -14,16 +16,25 @@ interface AmountAndOthersAccordionProps {
     handleAmountChange: (value: number) => void;
     handleDeductionChange: (value: number) => void;
     handleTaxCreditChange: (value: number) => void;
+    isSubmitDisabled: boolean;
+    handleSubmit: () => void;
+    isLoading: boolean;
+
 }
 
 export default function AmountAndOthersAccordion({
     userInput,
     handleAmountChange,
     handleDeductionChange,
-    handleTaxCreditChange}: AmountAndOthersAccordionProps) {
+    handleTaxCreditChange,
+    isSubmitDisabled,
+    handleSubmit,
+    isLoading
+
+}: AmountAndOthersAccordionProps) {
     return (
         <>
-            <Accordion sx={{minWidth:"80%"}}
+            <Accordion className="accordion-container"
                           defaultExpanded={false}
                           expanded={userInput.incomeType !== ''}
                           disabled={userInput.incomeType === ''}
@@ -37,23 +48,30 @@ export default function AmountAndOthersAccordion({
                       We are almost done!</h1>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <h2>
+                    <Divider variant={"fullWidth"} orientation={"horizontal"}/>
+                    <div className="w-full mt-3 flex flex-col justify-center items-center">
+                        <h2>
                             Tell me about your income and any applicable deductions or tax credits.
-                    </h2>
-                    <h2>
-                           For any question related to deductions or tax credits, please refer to the
-                        <a href={"#about"} className="to-about-hyperlink"> about
-                        </a> section.
-                    </h2>
-                    <div className="w-full flex flex-col md:flex-row justify-center items-center">
+                        </h2>
+                        <h3>
+                            For any question related to deductions or tax credits, please refer to the
+                            <a href={"#about"} className="to-about-hyperlink"> about
+                            </a> section.
+                        </h3>
                         <AmountInput value={userInput.income}
-                                 type={userInput.incomeType}
-                                 amountOnChange={handleAmountChange} />
+                                     type={userInput.incomeType}
+                                     amountOnChange={handleAmountChange}/>
                         <DeductionInput value={userInput.deductions}
                                         deductionOnChange={handleDeductionChange}/>
 
-                         <TaxCreditInput value={userInput.taxCredits}
-                                    taxCreditOnchange={handleTaxCreditChange}/>
+                        <TaxCreditInput value={userInput.taxCredits}
+                                        taxCreditOnchange={handleTaxCreditChange}/>
+                        <CalculateButton isSubmitDisabled={isSubmitDisabled} handleSubmit={handleSubmit}>
+                            {isLoading
+                                ? <CircularProgress color="inherit" size={24}/>
+                                : "Calculate"
+                            }
+                        </CalculateButton>
                     </div>
                 </AccordionDetails>
             </Accordion>

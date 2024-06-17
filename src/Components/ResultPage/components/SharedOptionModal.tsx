@@ -1,10 +1,12 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, styled, Typography} from "@mui/material";
+import {Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, styled, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import {deepOrange} from "@mui/material/colors";
 
 interface SharedOptionModalProps {
     isSharedOptionOpen: boolean;
     setIsSharedOptionOpen: (value: boolean) => void;
+    beatsPercentage: number;
 }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -16,19 +18,19 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function SharedOptionModal({isSharedOptionOpen, setIsSharedOptionOpen}: SharedOptionModalProps) {
+export default function SharedOptionModal({isSharedOptionOpen, setIsSharedOptionOpen, beatsPercentage}: SharedOptionModalProps) {
     const handleClose = () => {
         setIsSharedOptionOpen(false);
     };
     return (
-        <div>
+        <div className="w-96 h-96">
             <BootstrapDialog
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
                 open={isSharedOptionOpen}
               >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                  Your Tax Result
+                  Easy Tax
                 </DialogTitle>
                 <IconButton
                   aria-label="close"
@@ -43,24 +45,20 @@ export default function SharedOptionModal({isSharedOptionOpen, setIsSharedOption
                   <CloseIcon />
                 </IconButton>
                 <DialogContent dividers>
-                  <Typography gutterBottom>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                    dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.
-                  </Typography>
-                  <Typography gutterBottom>
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                    Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                  </Typography>
-                  <Typography gutterBottom>
-                    Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                    magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                    ullamcorper nulla non metus auctor fringilla.
-                  </Typography>
+
+                    <div style={{display: 'flex', alignItems: 'center', marginBottom: '16px'}}>
+                        <Avatar sx={{bgcolor: deepOrange[500], marginRight: '8px'}}>U</Avatar>
+                        <Typography variant="h6">Username</Typography>
+                    </div>
+                    <Typography variant="body1">I am using {<strong>"Easy Tax"</strong>} to find out how
+                        much money I paid in taxes this year. I have beats {beatsPercentage*100}% users among Australia! It is a great tool to calculate your taxes!
+                    </Typography>
+                    <Typography variant="body1">You can also use it by clicking the link below:</Typography>
+                    <a className="text-blue-300">https://easytax.com/username</a>
                 </DialogContent>
                 <DialogActions>
                   <Button autoFocus onClick={handleClose}>
-                    Save changes
+                    Share
                   </Button>
                 </DialogActions>
               </BootstrapDialog>

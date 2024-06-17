@@ -3,6 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {WorkingTimeInput} from "./inputs/WorkingTimeInput";
 import IncomeTypeSelection from "./inputs/IncomeTypeSelection";
 import {SelectChangeEvent} from "@mui/material/Select";
+import Divider from "@mui/material/Divider";
 
 interface IncomeTypeAccordionProps {
     userInput: {
@@ -24,7 +25,7 @@ export function IncomeTypeAccordion({
         handleWorkingTimeChange}:IncomeTypeAccordionProps){
     return (
         <>
-            <Accordion sx={{minWidth:"80%"}}
+            <Accordion className="accordion-container"
                        defaultExpanded={false}
                        expanded={userInput.employmentType !== ''}
                        disabled={userInput.employmentType === ''}
@@ -38,7 +39,8 @@ export function IncomeTypeAccordion({
                       Now, tell me more about your income type </h1>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <div className="w-full flex flex-col md:flex-row justify-center items-center">
+                    <Divider variant={"fullWidth"} orientation={"horizontal"}/>
+                    <div className="w-full flex p-10 flex-col md:flex-row justify-center items-center">
                         {/*selective rendering: if employment type = contractor/casual/part-time, show
                          working time input instead of income type */}
                         {

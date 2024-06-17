@@ -27,7 +27,7 @@ export function TaxCreditInput({value,taxCreditOnchange}:TaxCreditInputProps) {
     }
     return (
         <>
-            <FormControl sx={{ m: 1, maxWidth:"80%"}} variant="outlined" error={error}>
+            <FormControl sx={{ m: 1, minWidth:309.5}} variant="outlined" error={error}>
                 <InputLabel htmlFor="outlined-adornment-tax-credit">Tax Credit</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-tax-credit"
@@ -40,7 +40,7 @@ export function TaxCreditInput({value,taxCreditOnchange}:TaxCreditInputProps) {
                 {error ? (
                     <FormHelperText>Incorrect entry. Only numbers are allowed.</FormHelperText>
                 ) : (
-                    <FormHelperText> Total Tax Credit & Concessions &nbsp;
+                    <FormHelperText> Total Tax Credit & Concessions (if applicable) &nbsp;
                         <a href="#tax-credit" style={{textDecoration: 'none', color: 'inherit'}}>
                             <HelpIcon sx={{fontSize: 15}}/>
                         </a>

@@ -28,6 +28,6 @@ export default function IncrementCounter({ target }: IncrementCounterProps) {
     }, [count, target]);
 
     return (
-        <p className="inline-block text-pink-700 font-bold font-mono text-4xl">{Math.floor(count)}</p>
+        <p className="inline-block text-pink-700 text-2xl">{Math.floor(count)}</p>
     );
 }

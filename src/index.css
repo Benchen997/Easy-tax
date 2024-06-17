@@ -3,19 +3,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     margin: 0;
     padding: 0;
     font-family: "Lato", sans-serif;
     height: 100vh;
-    scroll-behavior: smooth;
     justify-content: center;
     align-items: center;
 }
 
 .tax-calculator-container {
-   display: flex;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -23,39 +25,30 @@ body {
     background-color: white;
 }
 .accordion-container {
-    width: 70%;
-    background-color: #fff;
-    border-radius: 10px;
-    color:#66ddf7;
-    position: relative;
-    overflow: hidden;
-    z-index: 0;
+    min-width: 80%;
 }
-.accordion-container::before {
-    content: '';
-    width: 200%;
-    height: 200%;
-    background-color: #fff;
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    background-image: conic-gradient(transparent, #2f84f1,transparent 20%);
-    z-index: -2;
-    animation: rotate 5s linear infinite;
+.accordion-container h1 {
+    font-size: 1.5rem;
+    color: #4a5568;
+    font-weight: bold;
 }
-.accordion-container::after {
-    content: '';
-    position: absolute;
-    inset:3px;
-    background-color: #fff;
-    border-radius: 8px;
-    z-index: -1;
+.accordion-container h2 {
+    font-size: 1.3rem;
+    color: gray;
+    margin-bottom: 20px;
 }
-
-@keyframes rotate {
-    to {
-        transform: rotate(360deg);
-    }
+.accordion-container h3 {
+    font-size: 1rem;
+    color: dimgray;
+    margin-bottom: 20px;
+}
+.result-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 45px;
+    background-color: white;
 }
 .to-about-hyperlink{
     color: #007bff;
@@ -64,4 +57,17 @@ body {
 .to-about-hyperlink:hover{
     color: #0056b3;
     font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .tax-calculator-container {
+        padding: 20px;
+    }
+    .accordion-container {
+        min-width: 100%;
+    }
+    .result-wrapper {
+        padding: 20px;
+        min-width: 100%;
+    }
 }

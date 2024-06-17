@@ -29,7 +29,7 @@ export default function AmountInput({ value, type,amountOnChange }: AmountInputP
 
     return (
         <>
-            <FormControl sx={{ m: 1, maxWidth:"80%"}} variant="outlined" error={error}>
+            <FormControl sx={{ m: 1, minWidth:309.5}} variant="outlined" error={error}>
                 <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-amount"

@@ -2,11 +2,12 @@ import Header from './UserPage/Header'
 import TaxCalculatorSection from "./UserPage/TaxCalculator";
 import About from "./UserPage/About/About";
 import {useEffect, useState} from "react";
-import Result from "./ResultPage/Result";
 import Footer from "./UserPage/Footer";
+import {ResultAccordion} from "./ResultPage/ResultAccordion";
 
 function App() {
     const [isResultOpen, setIsResultOpen] = useState(false);
+    const [reStart, setReStart] = useState(false);
     const [result, setResult] = useState({
         annualIncome: 0,
         tax: 0
@@ -18,38 +19,27 @@ function App() {
         rank: 0,
         beatsPercentage: 0
     });
-
-    const handleCloseResult = () => {
-        setIsResultOpen(false);
-        setResult(()=>{
-            return {
-                annualIncome: 0,
-                tax: 0
-            }
-        }); // Reset result state when closing the result page
-    };
-
+    function handleResultOpen() {
+        result.annualIncome !== 0
+            ? setIsResultOpen(true)
+            : setIsResultOpen(false);
+    }
     useEffect(() => {
-        if (result.tax !== 0) {
-            setIsResultOpen(true);
-        }
+        handleResultOpen()
     }, [result]);
-
     return (
         <div>
             <Header/>
-            {isResultOpen
-                ? <Result
-                    statistics={statistics}
-                    result={result}
-                    setIsResultOpen={handleCloseResult}
-                />
-                : <TaxCalculatorSection
-                    setResult={setResult}
-                    setStatistics={setStatistics}
-                />
-            }
-            {/*<AboutEasyTax>About Easy Tax</AboutEasyTax>*/}
+            <TaxCalculatorSection setResult={setResult}
+                                  setStatistics={setStatistics}
+                                  reStart={reStart}
+                                  setReStart={setReStart}
+            />
+            <ResultAccordion result={result}
+                             setResult={setResult}
+                             setReStart={setReStart}
+                             statistics={statistics}
+                             isResultOpen={isResultOpen}/>
             <About/>
             <Footer/>
         </div>
