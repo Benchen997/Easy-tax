@@ -51,7 +51,7 @@ export function calculateTax(userInput: UserInput): { annualIncome: number; tax:
     let { income } = userInput;  // Assign initial income value to annualIncome
     let annualIncome = income;
 
-    console.log(`Initial income: ${annualIncome}`); // print initial income value
+    //console.log(`Initial income: ${annualIncome}`); // print initial income value
 
     // transfer all income to annual
     if (incomeType !== "Annual") {
@@ -62,7 +62,7 @@ export function calculateTax(userInput: UserInput): { annualIncome: number; tax:
             : income * hoursPerDay * daysPerWeek * 52;
     }
 
-    console.log(`Calculated annual income: ${annualIncome}`); // print calculated annual income
+    //console.log(`Calculated annual income: ${annualIncome}`); // print calculated annual income
 
     const row = TAX_RATE_TABLE.find(row => annualIncome >= row.min && annualIncome <= row.max);
 

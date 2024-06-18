@@ -19,7 +19,7 @@ export function userIncomeStatistics(userTaxableIncome) {
                 }
             })
             .then(statistics => {
-                console.log(`Fetched statistics:`, statistics);
+                //console.log(`Fetched statistics:`, statistics);
                 // resolve with fetched statistics
                 resolve(statistics);
             })

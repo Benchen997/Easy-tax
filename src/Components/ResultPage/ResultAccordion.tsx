@@ -28,7 +28,7 @@ export function ResultAccordion({result,
                                     statistics,
                                     isResultOpen}: ResultAccordionProps) {
     const [isSharedOptionOpen, setIsSharedOptionOpen] = useState(false);
-    console.log(`received stats: `, statistics);
+    //console.log(`received stats: `, statistics);
     function handleOnClick() {
         setResult({annualIncome: 0, tax: 0});
         window.location.href = '#header';

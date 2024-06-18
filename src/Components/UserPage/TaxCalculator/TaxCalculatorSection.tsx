@@ -38,8 +38,8 @@ export default function TaxCalculatorSection({setResult, setStatistics, reStart,
         if (reStart) {
             setUserInput(initialUserInput);
             window.location.href = '#result';
-            console.log('restarting');
-            console.log(userInput);
+            //console.log('restarting');
+            //console.log(userInput);
             setReStart(false);
         }
     }, [reStart]);
@@ -57,7 +57,7 @@ export default function TaxCalculatorSection({setResult, setStatistics, reStart,
     }, [userInput]);
 
     async function handleSubmit() {
-        console.log(userInput);
+        //console.log(userInput);
         setIsLoading(true);
         try {
             //await new Promise(resolve => setTimeout(resolve, 1300));

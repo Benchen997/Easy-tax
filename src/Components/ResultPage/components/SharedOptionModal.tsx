@@ -51,7 +51,7 @@ export default function SharedOptionModal({isSharedOptionOpen, setIsSharedOption
                         <Typography variant="h6">Username</Typography>
                     </div>
                     <Typography variant="body1">I am using {<strong>"Easy Tax"</strong>} to find out how
-                        much money I paid in taxes this year. I have beats {beatsPercentage*100}% users among Australia! It is a great tool to calculate your taxes!
+                        much money I paid in taxes this year. I have beats {beatsPercentage}% users among Australia! It is a great tool to calculate your taxes!
                     </Typography>
                     <Typography variant="body1">You can also use it by clicking the link below:</Typography>
                     <a className="text-blue-300">https://easytax.com/username</a>
