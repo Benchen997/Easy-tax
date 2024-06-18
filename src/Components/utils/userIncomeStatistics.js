@@ -5,7 +5,7 @@ export function userIncomeStatistics(userTaxableIncome) {
         maxTaxableIncome: 98126,
         avgTaxableIncome: 50000,
         rank: 451,
-        beatsPercentage: 0.449
+        beatsPercentage: 44.91
     };
     const api = `http://localhost:5000/v1/statistics?userTaxableIncome=${userTaxableIncome}`;
     return new Promise((resolve, reject) => {
